@@ -1,15 +1,84 @@
-# AES-256-Encryption-System
+# AES-256 RTL Encryption System
 
-This project is an RTL design of an AES-256 encrpytion system.
-Advanced Encryption Standard (AES) - 256 has been one of the most secure data encryption algorithms for many years.
+This project presents a Register-Transfer Level (RTL) hardware design and implementation of the **AES-256 encryption algorithm**, developed for high-throughput cryptographic applications. The system is modeled in Verilog and operates as a fully pipelined 15-stage encryption engine capable of processing 128-bit blocks at a throughput of **128 bits per cycle** at **240 MHz**.
 
-In this algorithm, a 256 bit key is used to encrypt 128 bit data across 15 rounds of encryption. 
-The 256 bit key is processed by a key scheduling system that converts it into round keys for each round of encryption.
-These keys are used to encrypt the data in each round.
+---
 
-Each round of encrpytion consists of addition, shifting and substitution operations, namely AddRoundKey, SubBytes, ShiftRows and MixColumns.
+## Overview
 
-The key scheduling consists of similar rotation and substitution operations being performed on the encryption keys.
+**Advanced Encryption Standard (AES-256)** is a symmetric block cipher standardized by NIST, known for its robustness and wide adoption in secure communication systems. This design implements AES-256 in compliance with the standard, employing a 256-bit key to encrypt 128-bit plaintext blocks over 14 full rounds and one initial round (15 stages total).
 
-The system designed here has been divided into the encryption datapath and the key generation path, which have been connected in the top level module.
-It is a 15 stage pipeline that operates on a 240MHz clock signal with a throughput of 128 bits per cycle. Each stage in the pipeline corresponds to one round of encryption
+---
+
+## Key Features
+
+- **AES-256 Encryption**
+  - 256-bit key
+  - 128-bit plaintext block
+  - 14 rounds + 1 initial AddRoundKey
+- **Fully Pipelined Architecture**
+  - 15-stage pipeline (one stage per encryption round)
+  - 240 MHz clock frequency
+  - 128-bit per-cycle throughput
+- **Modular Design**
+  - Separate **datapath** and **key expansion** modules
+  - Integrated at top-level for synchronized operation
+
+---
+
+## Functional Components
+
+### Encryption Pipeline
+
+Each encryption round includes the following transformations:
+- **SubBytes** – Byte-wise substitution using an S-box
+- **ShiftRows** – Permutation of rows for diffusion
+- **MixColumns** – Column-wise mixing using Galois field arithmetic
+- **AddRoundKey** – Bitwise XOR of state with round key
+
+The initial round applies only the AddRoundKey operation, and the final round omits MixColumns, as per AES standard.
+
+### Key Expansion Unit
+
+- Performs the AES-256 key schedule
+- Expands the 256-bit cipher key into **15 round keys**
+- Includes byte rotation, S-box substitution, and round constant addition
+
+---
+
+## Design Architecture
+
+- **Encryption Datapath**: Processes the state through all AES rounds.
+- **Key Generation Path**: Generates round keys from the original 256-bit key.
+- **Top-Level Module**: Integrates datapath and key scheduler, managing synchronization across the pipeline.
+
+---
+
+## Performance
+
+- **Clock Frequency**: 240 MHz
+- **Throughput**: 128 bits per cycle (one 128-bit block every clock cycle after pipeline fill)
+- **Latency**: 15 clock cycles (pipeline depth)
+
+---
+
+## Simulation and Verification
+
+- The design has been simulated using standard Verilog testbenches.
+- Test vectors derived from [FIPS 197](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf) are used to verify correctness.
+- Waveform analysis confirms accurate state transitions, key scheduling, and pipeline synchronization.
+
+---
+
+## Future Work
+
+- **AES-256 Decryption Path**: Implementation of inverse operations and inverse key schedule
+- **Mode Support**: Integration of CBC, CTR, or GCM modes for practical cryptographic usage
+- **Interface Design**: Addition of AXI or UART interfaces for external communication
+
+---
+
+## References
+
+- NIST FIPS 197 — *Advanced Encryption Standard (AES)*  
+  https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
