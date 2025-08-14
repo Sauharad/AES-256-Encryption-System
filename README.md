@@ -1,6 +1,6 @@
 # AES-256 RTL Encryption System
 
-This project presents a Register-Transfer Level (RTL) hardware design and implementation of the **AES-256 encryption algorithm**, developed for high-throughput cryptographic applications. The system is modeled in Verilog and operates as a fully pipelined 15-stage encryption engine capable of processing 128-bit blocks at a throughput of **128 bits per cycle** at **240 MHz**.
+This project presents a Register-Transfer Level (RTL) hardware design and implementation of the **AES-256 encryption algorithm**, developed for high-throughput cryptographic applications. The system is modeled in Verilog and operates as a fully pipelined 15-stage encryption engine capable of processing 128-bit blocks at a throughput of **128 bits per cycle** at **240 MHz**. The input interface utilizes the AXI4-Stream protocol
 
 ---
 
