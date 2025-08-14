@@ -16,6 +16,8 @@ This project presents a Register-Transfer Level (RTL) hardware design and implem
   - 256-bit key
   - 128-bit plaintext block
   - 14 rounds + 1 initial AddRoundKey
+- **AXI4-Stream Interface**
+  - AXI4-Stream based input interface
 - **Fully Pipelined Architecture**
   - 15-stage pipeline (one stage per encryption round)
   - 240 MHz clock frequency
@@ -64,8 +66,8 @@ The initial round applies only the AddRoundKey operation, and the final round om
 
 ## Simulation and Verification
 
-- The design has been simulated using standard Verilog testbenches.
-- Test vectors derived from [FIPS 197](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf) are used to verify correctness.
+- The design has been verified using UVM-style SystemVerilog testbench with Driver, Monitor and Generator classes and random input.
+- Correctness of encryption is verified by comparison to a golden reference AES 256 model implemented in Python with the pycryptodome library.
 - Waveform analysis confirms accurate state transitions, key scheduling, and pipeline synchronization.
 
 ---
@@ -74,8 +76,7 @@ The initial round applies only the AddRoundKey operation, and the final round om
 
 - **AES-256 Decryption Path**: Implementation of inverse operations and inverse key schedule
 - **Mode Support**: Integration of CBC, CTR, or GCM modes for practical cryptographic usage
-- **Interface Design**: Addition of AXI or UART interfaces for external communication
-
+  
 ---
 
 ## References
